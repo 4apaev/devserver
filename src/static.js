@@ -8,7 +8,7 @@ module.exports = base => (req, res) => {
     fs.stat(x, (err, s) => {
       if(!err && s.isFile()){
         res.statusCode = 200;
-        res.setHeader('Content-Type', mim.get(Path.extname(x).slice(1))||'plain/text');
+        res.setHeader('Content-Type', mim.get(x,'plain/text'));
         fs.createReadStream(x).pipe(res);
       }
       else{
