@@ -1,5 +1,4 @@
 'use strict';
-
 class Egg {
   constructor(a,b) {
       this.attrs = Object.create(null);
@@ -21,6 +20,14 @@ class Egg {
     }
   keys() {
       return Object.keys(this.attrs)
+    }
+  values(uniq) {
+      return uniq
+        ? this.keys().reduce((buf,k) => {
+            let v = this.get(k)
+            return -1 === buf.indexOf(v) ? buf.concat(v) : buf
+          }, [])
+        : this.keys().map(this.get, this);
     }
   each(fn, ctx) {
       for(let k in this.attrs)
