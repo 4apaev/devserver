@@ -9,8 +9,5 @@
   "repository": {
     "type": "git",
     "url":"git@github.com:4apaev/devserver.git"
-  },
-  "dependencies": {
-    "browserify": "latest"
   }
 }
