@@ -1,5 +1,6 @@
 'use strict';
 const http = require('http');
+
 let App = {
   parse(x) {
     switch({}.toString.call(x)[8]){
@@ -18,23 +19,29 @@ let App = {
   listen() { return this.server.listen.apply(this.server, arguments)}
 }
 
-module.exports = function(done) {
+module.exports = (done) => {
+  
   let app = Object.create(App);
   let routes = app.routes = [];
-  let server = app.server = http.createServer(queue);
+  app.server = http.createServer(queue);
+
   function queue(req, res) {
     let route, i = -1;
+    
     function next(err) {
       if(err||!(route = routes[++i]))
         return done(err, req, res);
 
       if(!route.method(req.method.toUpperCase()) || !route.url(req.url))
         return next();
+
       try {
-        route.cb.call(app, req, res, next); }
-      catch(err) {
-        next(err) }
+        route.cb.call(app, req, res, next); 
+      } catch(err) {
+        next(err);
+      }
     }
+
     next();
   }
   return app
