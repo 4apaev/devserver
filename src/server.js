@@ -3,10 +3,10 @@ const http = require('http');
 
 let App = {
   parse(x) {
-    switch({}.toString.call(x)[8]){
-      case 'R': return v => x.test(v); break;
-      case 'S': return v => v===x; break;
-      case 'A': return v => x.indexOf(v) > -1; break;
+    switch ({}.toString.call(x)[8]) {
+      case 'R': return v => x.test(v);
+      case 'S': return v => v === x;
+      case 'A': return v => x.indexOf(v) > -1;
       default : return v => !0;
     }},
   use(method, url, cb) {
@@ -35,12 +35,12 @@ module.exports = (done) => {
       if(!route.method(req.method.toUpperCase()) || !route.url(req.url))
         return next();
 
-      try {
-        route.cb.call(app, req, res, next); 
-      } catch(err) {
-        next(err);
-      }
-    }
+          try {
+            route.cb.call(app, req, res, next);
+          } catch(err) {
+            next(err);
+          }
+        }
 
     next();
   }
