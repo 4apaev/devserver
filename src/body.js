@@ -7,10 +7,10 @@ module.exports = (req, res, next) => {
   req.on('end', () => {
     try {
       req.body = JSON.parse(body);
+      next();
     } catch(e) {
       res.statusCode = 400;
-      return res.end(e.message);
+      res.end(e.message);
     }
-    next()
   })
 }
