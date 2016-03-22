@@ -16,5 +16,5 @@ module.exports = base => (req, res) => {
       res.setHeader('Content-Type', 'plain/text');
       res.end('404 Not Found\n');
     }
-  })
+  });
 }
