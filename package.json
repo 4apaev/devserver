@@ -1,13 +1,14 @@
 {
   "name": "devserver",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "basic dev server",
-  "author": {
-    "name": "Michael Miretski",
-    "email": "4apaev@gmail.com"
-  },
-  "repository": {
-    "type": "git",
-    "url":"git@github.com:4apaev/devserver.git"
+  "main": "index.js",
+  "author": "Michael Miretski",
+  "repository": "git@github.com:4apaev/devserver.git",
+  "scripts": {
+    "fix"   : "fixjsstyle --disable_indentation_fixing --disable 2,11,110 src/*.js; exit 0",
+    "lint"  : "jshint src/*.js; exit 0",
+    "export": "echo > index.js && for x in src/*.js; do echo ${x} | sed 's/src\\/\\(.*\\)\\.js/exports.\\1 = require(\".\\/src\\/\\1\");/' >> index.js; done",
+    "build" : "npm run fix && npm run export"
   }
 }
