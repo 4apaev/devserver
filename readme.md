@@ -6,10 +6,7 @@ simple dev server
 let fs = require('fs');
 let dev = require('devserver');
 
-let app = dev.server((err, req, res) => {
-  res.statusCode = code;
-  res.end(err.message);
-})
+let app = dev.server(dev.fail)
 ```
 
 ## logger
@@ -25,17 +22,8 @@ app.use(dev.logger)
 app.get('/', (req, res) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/html');
-    fs.createReadStream('./view/index.html').pipe(res);
+    fs.createReadStream('./index.html').pipe(res);
   });
-
-```
-
-## browserify
-
-``` js
-app.get('/pub/main.js', dev.brws('./pub/main.js'));
-
-
 ```
 
 ## static
@@ -49,4 +37,3 @@ app.get(dev.statiq(__dirname));
 
 ``` js
 app.listen(3000);
-```
