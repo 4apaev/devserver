@@ -1,7 +1,11 @@
-exports.server = require('./src/server');
-exports.statiq = require('./src/static');
-exports.logger = require('./src/logger');
-exports.body = require('./src/body');
-exports.favicon = require('./src/favicon');
-exports.query = require('./src/query');
-exports.json    = require('./src/json');
+
+exports.body = require("./src/body");
+exports.brws = require("./src/brws");
+exports.cors = require("./src/cors");
+exports.fail = require("./src/fail");
+exports.favicon = require("./src/favicon");
+exports.json = require("./src/json");
+exports.logger = require("./src/logger");
+exports.query = require("./src/query");
+exports.server = require("./src/server");
+exports.static = require("./src/static");
