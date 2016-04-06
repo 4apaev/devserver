@@ -1,48 +1,56 @@
 'use strict';
 const http = require('http');
+let after = require('./after');
+let query = require('./../middleware/query');
+let parse = require('../lib/parse');
+let log = console.log.bind(console);
+let yep = ()=>true;
 
 let App = {
-  parse(x) {
-    switch ({}.toString.call(x)[8]) {
-      case 'R': return v => x.test(v);
-      case 'S': return v => v === x;
-      case 'A': return v => x.indexOf(v) > -1;
-      default : return v => !0;
-    }},
-  use(method, url, cb) {
-    this.routes.push({ method: this.parse(method), url: this.parse(url), cb: cb||url||method });
+  push(cb, pass) {
+    cb = cb.bind(this);
+    cb.pass = pass || yep;
+    this.routes.push(cb);
     return this;
   },
-  put(url, cb) { return this.use('PUT', url, cb) },
+
+  use(method, url, cb) {
+    let m = parse(method);
+    let u = parse(url);
+    return this.push(cb || url || method, req => m(req.method) && (req.params = u(req.pathname)))
+  },
+
   post(url, cb) { return this.use('POST', url, cb) },
-  get(url, cb) { return this.use('GET', url, cb) },
-  listen() { return this.server.listen.apply(this.server, arguments)}
+  get(url, cb)  { return this.use('GET', url, cb) },
+
+  listen(port, done) {
+      done||(done=after);
+      let server = http.createServer((req, res) => queue(req, res, done, this.routes, -1));
+      return server.listen(port)
+    }
 }
 
-module.exports = (done) => {
-  
-  let app = Object.create(App);
-  let routes = app.routes = [];
-  app.server = http.createServer(queue);
-
-  function queue(req, res) {
-    let route, i = -1;
-    
-    function next(err) {
-      if(err||!(route = routes[++i]))
-        return done(err, req, res);
-
-      if(!route.method(req.method.toUpperCase()) || !route.url(req.url))
-        return next();
-
-          try {
-            route.cb.call(app, req, res, next);
-          } catch(err) {
-            next(err);
+function queue(req, res, done, routes, i) {
+  query(req, res, next);
+  function next(err) {
+    setTimeout(route => {
+      if(err || !route) {
+        done(err, req, res)
+      } else if(route.pass(req)) {
+        try {
+          route(req, res, next)
+        } catch(err) {
+          next(err)
+        }} else {
+            next()
           }
-        }
-
-    next();
+    }, 0, routes[++i])
   }
-  return app
+}
+
+module.exports = () => {
+  let app = Object.create(App);
+  app.routes = [];
+  app.log = log;
+  return app;
 }

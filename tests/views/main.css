@@ -1,0 +1,72 @@
+#glbw {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  position: fixed;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0,0,0,.5);
+}
+
+#glbw button {
+  color: #fff;
+  border: 0;
+  background: skyblue;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
+  border-radius: 3px;
+
+  margin: 1px;
+  padding: 0 1em;
+  line-height: 2;
+  max-height: 2em;
+
+  flex: 1 auto;
+  display: block;
+  position: relative;
+}
+
+#glbw button:hover { background: crimson; }
+
+#glbw button:hover:after {
+  content: attr(title);
+  top: -1em;
+  left: -2em;
+
+  z-index: 99;
+  position: absolute;
+  padding: 0 1em;
+  display: inline-block;
+
+  color: #777;
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 0 1px 1px #ccc;
+
+}
+
+#glbw button.close {
+  background: crimson;
+  border-radius: 50%;
+  top: 25%;
+  left: 75%;
+  width: 2em;
+  padding: 0;
+  margin: -1em 0 0 -1em;
+  position: absolute;
+}
+#globals {
+  background: #f0f0f0;
+  box-shadow: 0 0 0 999em rgba(0,0,0,.25);
+  border-radius: 3px;
+  padding: 1em;
+  width: 50%;
+  height: 50%;
+  display: flex;
+  flex-flow: row wrap;
+  overflow-y: auto;
+}

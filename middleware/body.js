@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
       next();
     } catch(e) {
       res.statusCode = 400;
-      res.end(e.message);
+      res.end(e.toString());
     }
   });
 }

@@ -1,7 +1,7 @@
 'use strict';
 let Path = require('path');
 let fs = require('fs');
-let mim = require('../mim');
+let mim = require('./mim/index');
 
 module.exports = base => (req, res) => {
   let x = Path.join(base, req.url);

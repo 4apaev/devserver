@@ -3,6 +3,7 @@ let Url = require('url');
 let Parse = require('querystring').parse;
 
 module.exports = (req, res, next) => {
-  req.query = Parse(Url.parse(req.url).query);
+  Object.assign(req, Url.parse(req.url))
+  req.query = Parse(req.query);
   next();
 }
