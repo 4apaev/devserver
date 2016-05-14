@@ -7,12 +7,10 @@
   "repository": "git@github.com:4apaev/devserver.git",
   "scripts": {
     "test" : "mocha tests/*.js",
-    "fix"   : "fixjsstyle --disable_indentation_fixing --disable 2,11,110 src/*.js; exit 0",
-    "lint"  : "jshint src/*.js; exit 0",
-    "export": "echo > index.js && for x in src/*.js; do echo ${x} | sed 's/src\\/\\(.*\\)\\.js/exports.\\1 = require(\".\\/src\\/\\1\");/' >> index.js; done",
-    "build" : "npm run fix && npm run export"
+    "lint"  : "jshint src/*.js; exit 0"
   },
   "devDependencies": {
-    "is"        : "git@github.com:4apaev/is.git"
+    "is": "git@github.com:4apaev/is.git#assert",
+    "readdate":"git@github.com:4apaev/readdate.git"
   }
 }
