@@ -5,7 +5,7 @@ module.exports = (req, res, next) => {
   let start = new Date;
   res.once('finish', () => {
     let now = Date.now();
-    console.log(start.toLocaleTimeString('en-us', { hour12: false })
+    console.log(start.toLocaleTimeString('en-us', { hour12: false }),
                 res.statusCode,
                 req.method,
                 req.url,
