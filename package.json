@@ -6,9 +6,9 @@
   "author": "Michael Miretski",
   "repository": "git@github.com:4apaev/devserver.git",
   "scripts": {
-    "fix"   : "fixjsstyle --disable_indentation_fixing --disable 2,11,110 src/*.js; exit 0",
-    "lint"  : "jshint src/*.js; exit 0",
-    "export": "echo > index.js && for x in src/*.js; do echo ${x} | sed 's/src\\/\\(.*\\)\\.js/exports.\\1 = require(\".\\/src\\/\\1\");/' >> index.js; done",
     "build" : "npm run fix && npm run export"
+  },
+  "dependencies": {
+    "readdate":"git@github.com:4apaev/readdate.git"
   }
 }
