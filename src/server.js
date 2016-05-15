@@ -2,6 +2,8 @@
 const http = require('http');
 let query = require('./../middleware/query');
 let parse = require('./parse');
+let fin = require('./fin');
+let is = require('is');
 
 class App {
   constructor() {
@@ -27,7 +29,7 @@ class App {
       return this.use('GET', url, cb);
     }
 
-  listen(port, done) {
+  listen(port, done=fin) {
       this.server = http.createServer((req, res) => App.queue(req, res, done, this.routes, -1));
       return this.server.listen(port);
     }
@@ -49,12 +51,7 @@ class App {
       }}
 }
 
-module.exports = () => {
-  let app = Object.create(App);
-    app.routes = [];
-    app.log = log;
-    return new App;
-  }
+module.exports = () => new App;
 
 // function queue(req, res, done, routes, i) {
 //   query(req, res, next);
