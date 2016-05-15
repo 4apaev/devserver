@@ -1,14 +1,17 @@
 'use strict';
-let Time = require('../lib/time')
-
+let convert = require('readdate')
+let up = new Date;
 module.exports = (req, res, next) => {
-  let date = new Time;
-  res.once('finish', () =>
-           console.log(date.format('Day date Month hours:min:sec'),
-                      res.statusCode,
-                      req.method,
-                      req.url,
-                      `${date.diff}ms`))
+  let start = new Date;
+  res.once('finish', () => {
+    let now = Date.now();
+    console.log(start.toLocaleTimeString('en-us', { hour12: false }),
+      res.statusCode,
+      req.method,
+      req.url,
+      ' | took', now-start,
+      ' | up for', convert(now-up))
+  });
   next();
 }
 
