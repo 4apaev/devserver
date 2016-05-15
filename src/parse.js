@@ -14,7 +14,7 @@ function createRgx(x) {
 
 function matchTerms(x) {
     let cb, names = getTerms(x);
-    if(names) {
+    if(!names) {
       cb = path => x===path;
     } else {
       let chunkRgx = createRgx(x);
