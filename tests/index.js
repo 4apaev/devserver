@@ -1,12 +1,10 @@
 'use strict';
-let fs      = require('fs');
-let is      = require('is');
-let assert = require('assert');
+let log = console.log.bind(console);
 let server  = require('../src/server');
 let logger  = require('../middleware/logger');
 let favicon  = require('../middleware/favicon');
 let statiq  = require('../middleware/static');
-
+const PORT = 7000;
 let page = x => (req, res) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/html');
@@ -31,12 +29,12 @@ app.use(logger)
   .get(statiq(__dirname))
 
 
-app.listen(3000, (err, req, res) => {
+app.listen(PORT, (err, req, res) => {
   res.statusCode = 500;
-  app.log('FINALE', err)
+  log('FINALE', err);
   res.end(err ? err.message : err);
 });
-app.log('up and running on 3000')
+log('up and running on ' + PORT)
 
 
 

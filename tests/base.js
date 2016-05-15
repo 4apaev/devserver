@@ -7,15 +7,18 @@ let logger  = require('../middleware/logger')
 
 let txt     = JSON.stringify.bind(JSON)
 let statusMap = {200:'200 OK',404: 'Not Found',500:'ERROR'}
-
+let PORT = 3000
 fs.readFileSync('./tests/base.html').toString()
 
-server(fin)
+server()
   .use(maybe(logger,'logger'))
-  .get('/', maybe(params))
+  .get('/', (req, res, next) => {
+    res.statusCode = 200;
+    res.end('<h1>ok</h1>')
+  })
   .get('/params/:group/all/:id', maybe(params))
   .get('/query', maybe(query))
-  .listen(3000);
+  .listen(PORT, fin);
 
 
 function params(req, res, next) {
@@ -28,7 +31,7 @@ function query(req, res, next) {
     return next('cb'== req.query.callback ? null : 'req.query should have "callback" field equals "cb"')
   }
 
-function maybe(fn,name) {
+function maybe(fn, name) {
   name||(name=fn.name)
   return function(req, res, next) {
     req.buf||(req.buf={})
