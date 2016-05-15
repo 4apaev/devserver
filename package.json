@@ -1,16 +1,17 @@
 {
   "name": "devserver",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "basic dev server",
-  "main": "index.js",
+  "main": "src/server.js",
   "author": "Michael Miretski",
   "repository": "git@github.com:4apaev/devserver.git",
   "scripts": {
-    "test" : "mocha tests/*.js",
-    "lint"  : "jshint src/*.js; exit 0"
+    "lint"  : "jshint src/*.js middleware/**/*.js; exit 0"
+  },
+  "dependencies": {
+    "readdate":"git@github.com:4apaev/readdate.git"
   },
   "devDependencies": {
-    "is": "git@github.com:4apaev/is.git#assert",
-    "readdate":"git@github.com:4apaev/readdate.git"
+    "is": "git@github.com:4apaev/is.git#assert"
   }
 }
