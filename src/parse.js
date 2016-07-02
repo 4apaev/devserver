@@ -1,11 +1,11 @@
 'use strict';
-let is = require('is');
-let urlChunk = /\/:(\w+)/g;
+const is = require('is').use('rgx', 'RegExp');
+const urlChunk = /\/:(\w+)/g;
 
 module.exports = parse;
 
 function parse(x) {
-    return is.str(x) ? matchTerms(x) : () => true;
+    return is.str(x) ? matchTerms(x) : is.rgx(x) ? x.test.bind(x) : () => true;
   }
 
 function createRgx(x) {
