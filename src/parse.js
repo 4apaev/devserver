@@ -1,35 +1,24 @@
 'use strict';
 const is = require('is').use('rgx', 'RegExp');
 const urlChunk = /\/:(\w+)/g;
+const yep = () => true
 
-module.exports = parse;
+module.exports = x => is.str(x) ? matchTerms(x) : is.rgx(x) ? x.test.bind(x) : yep;
 
-function parse(x) {
-    return is.str(x) ? matchTerms(x) : is.rgx(x) ? x.test.bind(x) : () => true;
-  }
-
-function createRgx(x) {
-    return new RegExp('^'+x.replace(/\//g,'\\/').replace(urlChunk,'/(\\w+)') + '$');
-  }
-
-function matchTerms(x) {
-    let cb, names = getTerms(x);
-    if(!names) {
-      cb = path => x===path;
-    } else {
-      let chunkRgx = createRgx(x);
+function matchTerms(x, terms, cb) {
+    if(terms = getTerms(x)) {
+      let rgx = new RegExp('^'+x.replace(urlChunk,'/(\\w+)') + '$');
       cb = path => {
-        let values = path.match(chunkRgx);
-        return values ? matchParams(values, names) : false;
+        let values = path.match(rgx);
+        return values ? setParams(values, terms) : false;
       }
     }
-    return cb;
+    return cb || (cb = path => x === path);
   }
 
-function matchParams(values, names) {
-    let params = {};
-    for(let i = 0; i < names.length; i++)
-      params[names[i]] = values[i+1];
+function setParams(values, terms, params = {}) {
+    for(let i = 0; i < terms.length; i++)
+      params[terms[i]] = values[i+1];
     return params;
   }
 
