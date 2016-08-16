@@ -9,7 +9,6 @@ module.exports = (req, res, next) => {
       res.statusCode,
       req.method,
       req.url,
-      ' | took', now-start,
       ' | up for', convert(now-up))
   });
   next();
